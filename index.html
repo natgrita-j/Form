@@ -1,974 +1,470 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>แบบทดสอบความพร้อมทางอาชีพ</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<style>
-:root {
-  --primary: #0EA5E9;
-  --primary-dark: #0284C7;
-  --primary-light: #E0F2FE;
-  --teal: #14B8A6;
-  --teal-light: #CCFBF1;
-  --surface: #FFFFFF;
-  --surface-2: #F8FAFC;
-  --surface-3: #F1F5F9;
-  --border: #E2E8F0;
-  --border-focus: #0EA5E9;
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #94A3B8;
-  --success: #10B981;
-  --warning: #F59E0B;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.06);
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Sarabun', 'IBM Plex Sans Thai', sans-serif;
-  background: var(--surface-2);
-  color: var(--text-primary);
-  min-height: 100vh;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบความพร้อมทางอาชีพ (Full Analysis A+B+C)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #0EA5E9;
+            --primary-dark: #0284C7;
+            --primary-light: #E0F2FE;
+            --teal: #14B8A6;
+            --teal-light: #CCFBF1;
+            --purple: #8B5CF6;
+            --purple-light: #F5F3FF;
+            --surface: #FFFFFF;
+            --surface-2: #F8FAFC;
+            --border: #E2E8F0;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --radius: 12px;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
 
-/* ── Layout ── */
-.app-shell {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 16px 80px;
-}
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Sarabun', sans-serif; background: var(--surface-2); color: var(--text-primary); line-height: 1.6; }
 
-/* ── Header bar ── */
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 12px 16px;
-  margin: 0 -16px;
-}
-.header-inner {
-  max-width: 680px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.header-logo {
-  width: 32px; height: 32px;
-  background: linear-gradient(135deg, var(--primary), var(--teal));
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  color: #fff; font-weight: 700; font-size: 13px; flex-shrink: 0;
-}
-.header-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-.header-sub { font-size: 12px; color: var(--text-muted); }
-.header-progress-wrap { margin-left: auto; min-width: 80px; text-align: right; }
-.header-progress-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-.progress-bar {
-  height: 4px; background: var(--surface-3); border-radius: 4px; overflow: hidden;
-}
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--teal));
-  border-radius: 4px;
-  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        .app-shell { max-width: 680px; margin: 0 auto; padding: 20px 16px 100px; }
 
-/* ── Screens ── */
-.screen { display: none; animation: fadeSlide 0.3s ease; }
-.screen.active { display: block; }
-@keyframes fadeSlide {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+        .header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 12px; }
+        .progress-container { height: 6px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 8px; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--teal)); width: 0%; transition: width 0.3s ease; }
 
-/* ── Intro Screen ── */
-.intro-hero {
-  padding: 48px 0 32px;
-  text-align: center;
-}
-.intro-icon {
-  width: 72px; height: 72px;
-  background: linear-gradient(135deg, var(--primary-light), var(--teal-light));
-  border-radius: 20px;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 20px;
-  font-size: 32px;
-}
-.intro-title {
-  font-size: 26px; font-weight: 700; color: var(--text-primary);
-  line-height: 1.3; margin-bottom: 8px;
-}
-.intro-subtitle {
-  font-size: 15px; color: var(--text-secondary); line-height: 1.7; max-width: 440px; margin: 0 auto;
-}
-.intro-parts {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0;
-}
-.part-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-md); padding: 16px;
-  text-align: left; box-shadow: var(--shadow-sm);
-}
-.part-badge {
-  display: inline-block; font-size: 11px; font-weight: 600;
-  padding: 3px 10px; border-radius: 20px; margin-bottom: 8px;
-}
-.part-badge.a { background: var(--primary-light); color: var(--primary-dark); }
-.part-badge.b { background: var(--teal-light); color: #0F766E; }
-.part-card-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-.part-card-desc { font-size: 12px; color: var(--text-muted); }
-.name-field {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
-  padding: 12px 16px; margin-bottom: 8px;
-  display: flex; align-items: center; gap: 10px;
-}
-.name-field input {
-  border: none; outline: none; background: transparent;
-  font-family: inherit; font-size: 15px; color: var(--text-primary);
-  flex: 1; width: 100%;
-}
-.name-field input::placeholder { color: var(--text-muted); }
-.name-hint { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
-.btn-primary {
-  width: 100%; padding: 15px 24px;
-  background: linear-gradient(135deg, var(--primary), var(--teal));
-  color: #fff; border: none; border-radius: var(--radius-md);
-  font-family: inherit; font-size: 16px; font-weight: 600;
-  cursor: pointer; transition: var(--transition);
-  box-shadow: 0 4px 16px rgba(14,165,233,0.3);
-}
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(14,165,233,0.4); }
-.btn-primary:active { transform: translateY(0); }
-.btn-secondary {
-  padding: 11px 20px; background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-md); font-family: inherit; font-size: 14px;
-  font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: var(--transition);
-}
-.btn-secondary:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .screen { display: none; animation: fadeIn 0.4s ease; }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ── Section Header ── */
-.section-header {
-  padding: 24px 0 16px;
-}
-.section-tag {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 12px; font-weight: 600; padding: 4px 12px;
-  border-radius: 20px; margin-bottom: 12px;
-}
-.section-tag.a { background: var(--primary-light); color: var(--primary-dark); }
-.section-tag.b { background: var(--teal-light); color: #0F766E; }
-.section-tag-dot { width: 6px; height: 6px; border-radius: 50%; }
-.section-tag.a .section-tag-dot { background: var(--primary); }
-.section-tag.b .section-tag-dot { background: var(--teal); }
-.section-q-label { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-.section-q-text { font-size: 17px; font-weight: 600; color: var(--text-primary); line-height: 1.5; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
 
-/* ── Card ── */
-.card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 20px;
-  box-shadow: var(--shadow-sm); margin-bottom: 16px;
-}
+        .q-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px; }
+        .q-tag-a { background: var(--primary-light); color: var(--primary-dark); }
+        .q-tag-b { background: var(--teal-light); color: #0F766E; }
+        .q-tag-c { background: var(--purple-light); color: #6D28D9; }
 
-/* ── Section A: Interest buttons ── */
-.interest-career {
-  font-size: 18px; font-weight: 600; color: var(--text-primary);
-  margin-bottom: 4px;
-}
-.interest-hint { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
-.interest-btns {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-}
-.interest-btn {
-  padding: 14px 8px; border-radius: var(--radius-md);
-  border: 1.5px solid var(--border); background: var(--surface);
-  font-family: inherit; font-size: 13px; font-weight: 500;
-  cursor: pointer; transition: var(--transition); text-align: center;
-  line-height: 1.4;
-}
-.interest-btn:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); }
-.interest-btn.sel-2 { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); box-shadow: 0 0 0 3px rgba(14,165,233,0.12); }
-.interest-btn.sel-1 { border-color: #8B5CF6; background: #F5F3FF; color: #6D28D9; box-shadow: 0 0 0 3px rgba(139,92,246,0.12); }
-.interest-btn.sel-0 { border-color: #94A3B8; background: var(--surface-3); color: var(--text-secondary); }
-.interest-btn .btn-score { font-size: 18px; margin-bottom: 4px; }
-.interest-btn .btn-label { font-size: 12px; }
+        .career-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; min-height: 60px; }
 
-/* ── Navigation ── */
-.nav-row {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; padding: 12px 0;
-}
-.nav-counter { font-size: 13px; color: var(--text-muted); }
-.btn-nav {
-  padding: 11px 20px; border-radius: var(--radius-md);
-  border: 1.5px solid var(--border); background: var(--surface);
-  font-family: inherit; font-size: 14px; font-weight: 500;
-  color: var(--text-secondary); cursor: pointer; transition: var(--transition);
-}
-.btn-nav:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
-.btn-nav:disabled { opacity: 0.4; cursor: default; }
-.btn-nav-primary {
-  padding: 11px 24px; border-radius: var(--radius-md);
-  background: var(--primary); border: none; color: #fff;
-  font-family: inherit; font-size: 14px; font-weight: 600;
-  cursor: pointer; transition: var(--transition);
-}
-.btn-nav-primary:hover { background: var(--primary-dark); }
-.btn-nav-primary:disabled { opacity: 0.4; cursor: default; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .ans-btn { padding: 15px 10px; border: 1.5px solid var(--border); border-radius: var(--radius); background: #fff; cursor: pointer; transition: all 0.2s; font-family: inherit; font-size: 14px; font-weight: 500; }
+        .ans-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+        .ans-btn.active-2 { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .ans-btn.active-1 { background: #94a3b8; color: #fff; border-color: #94a3b8; }
+        .ans-btn.active-0 { background: #ef4444; color: #fff; border-color: #ef4444; }
 
-/* ── Section B: Click-to-rank ── */
-.scenario-text { font-size: 15px; font-weight: 500; line-height: 1.7; margin-bottom: 20px; }
-.rank-hint { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
-.rank-options { display: flex; flex-direction: column; gap: 10px; }
-.rank-option {
-  display: flex; align-items: center; gap: 14px;
-  padding: 14px 16px; border-radius: var(--radius-md);
-  border: 1.5px solid var(--border); background: var(--surface);
-  cursor: pointer; transition: var(--transition); user-select: none;
-}
-.rank-option:hover { border-color: var(--primary); background: var(--primary-light); }
-.rank-option.ranked-1 { border-color: var(--primary); background: var(--primary-light); }
-.rank-option.ranked-2 { border-color: #8B5CF6; background: #F5F3FF; }
-.rank-option.ranked-3 { border-color: #94A3B8; background: var(--surface-3); }
-.rank-badge {
-  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; border: 2px solid var(--border);
-  color: var(--text-muted); background: var(--surface-3); transition: var(--transition);
-}
-.rank-option.ranked-1 .rank-badge { background: var(--primary); border-color: var(--primary); color: #fff; }
-.rank-option.ranked-2 .rank-badge { background: #8B5CF6; border-color: #8B5CF6; color: #fff; }
-.rank-option.ranked-3 .rank-badge { background: #94A3B8; border-color: #94A3B8; color: #fff; }
-.rank-text { font-size: 14px; flex: 1; line-height: 1.5; }
-.rank-pts {
-  font-size: 11px; font-weight: 600; padding: 2px 8px;
-  border-radius: 10px; opacity: 0; transition: var(--transition);
-}
-.rank-option.ranked-1 .rank-pts { opacity: 1; background: rgba(14,165,233,0.15); color: var(--primary-dark); }
-.rank-option.ranked-2 .rank-pts { opacity: 1; background: rgba(139,92,246,0.15); color: #6D28D9; }
-.rank-option.ranked-3 .rank-pts { opacity: 1; background: rgba(148,163,184,0.15); color: var(--text-secondary); }
+        .rank-item { display: flex; align-items: center; gap: 15px; padding: 15px; border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
+        .rank-item.selected { border-color: var(--teal); background: var(--teal-light); }
+        .rank-badge { width: 30px; height: 30px; border-radius: 50%; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+        .rank-item.selected .rank-badge { background: var(--teal); color: #fff; border-color: var(--teal); }
 
-/* ── Result Screen ── */
-.result-hero { padding: 32px 0 24px; text-align: center; }
-.result-combo-badge {
-  display: inline-block; padding: 6px 18px;
-  background: linear-gradient(135deg, var(--primary-light), var(--teal-light));
-  border: 1px solid rgba(14,165,233,0.2);
-  border-radius: 20px; font-size: 13px; font-weight: 600;
-  color: var(--primary-dark); margin-bottom: 12px;
-}
-.result-combo-title { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
-.result-combo-name { font-size: 18px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px; }
-.result-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.8; max-width: 480px; margin: 0 auto; }
-.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-@media (max-width: 520px) { .chart-grid { grid-template-columns: 1fr; } }
-.chart-card-title { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px; }
-.score-bars { display: flex; flex-direction: column; gap: 10px; }
-.score-row { display: flex; align-items: center; gap: 10px; }
-.score-key { font-size: 12px; font-weight: 600; width: 20px; flex-shrink: 0; }
-.score-name { font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
-.score-track { flex: 1; height: 8px; background: var(--surface-3); border-radius: 4px; overflow: hidden; }
-.score-fill { height: 100%; border-radius: 4px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
-.score-val { font-size: 12px; font-weight: 600; color: var(--text-primary); width: 36px; text-align: right; flex-shrink: 0; }
-.career-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-.career-chip {
-  padding: 6px 14px; border-radius: 20px;
-  background: var(--teal-light); color: #0F766E;
-  font-size: 13px; font-weight: 500;
-  border: 1px solid rgba(20,184,166,0.2);
-}
-.result-actions { display: flex; gap: 10px; margin-top: 8px; }
-.result-actions .btn-secondary { flex: 1; text-align: center; }
+        .btn-nav { width: 100%; padding: 16px; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-teal { background: var(--teal); color: #fff; }
+        .btn-purple { background: var(--purple); color: #fff; }
 
-/* ── Transition overlay ── */
-.transition-overlay {
-  position: fixed; inset: 0; z-index: 100;
-  background: linear-gradient(135deg, var(--primary), var(--teal));
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none; transition: opacity 0.3s;
-}
-.transition-overlay.show { opacity: 1; pointer-events: all; }
-.transition-content { text-align: center; color: #fff; }
-.transition-icon { font-size: 48px; margin-bottom: 16px; }
-.transition-text { font-size: 20px; font-weight: 700; }
+        .analysis-box { background: #f1f5f9; padding: 15px; border-radius: 10px; margin-top: 15px; font-size: 14px; border-left: 5px solid var(--primary); }
+        .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .comp-card { background: #fff; padding: 15px; border-radius: 10px; border: 1px solid var(--border); }
+        .comp-card h4 { font-size: 13px; margin-bottom: 8px; color: var(--text-secondary); }
+        .career-chip { display: inline-block; background: var(--primary-light); color: var(--primary-dark); padding: 4px 10px; border-radius: 20px; font-size: 11px; margin: 2px; }
 
-/* ── Misc ── */
-.mt-8 { margin-top: 8px; }
-.mt-16 { margin-top: 16px; }
-.divider { height: 1px; background: var(--border); margin: 16px 0; }
-.text-center { text-align: center; }
-</style>
+        /* เพิ่ม Style สำหรับสรุปรหัส */
+        .code-summary-flex { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 20px; }
+        .code-badge { flex: 1; text-align: center; padding: 10px; border-radius: 10px; background: #fff; border: 1px solid var(--border); }
+        .code-badge span { display: block; font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+        .code-badge strong { font-size: 24px; display: block; line-height: 1.2; }
+
+        .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+        .btn-back { background: none; border: none; color: var(--text-secondary); cursor: pointer; text-decoration: underline; }
+    </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-inner">
-    <div class="header-logo">VR</div>
-    <div>
-      <div class="header-title">Vocational Readiness</div>
-      <div class="header-sub" id="headerSub">แบบทดสอบความพร้อมทางอาชีพ</div>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-weight:700; color:var(--primary);">Vocational Readiness</span>
+        <span id="step-label" style="font-size:12px; color:var(--text-secondary);">เตรียมตัวให้พร้อม...</span>
     </div>
-    <div class="header-progress-wrap" id="headerProgressWrap" style="display:none">
-      <div class="header-progress-label" id="headerProgressLabel">0%</div>
-      <div class="progress-bar"><div class="progress-bar-fill" id="headerProgressFill" style="width:0%"></div></div>
-    </div>
-  </div>
+    <div class="progress-container"><div id="main-progress" class="progress-bar"></div></div>
 </div>
 
 <div class="app-shell">
 
-<!-- ════════════════ INTRO ════════════════ -->
-<div class="screen active" id="screen-intro">
-  <div class="intro-hero">
-    <div class="intro-icon">🧭</div>
-    <h1 class="intro-title">แบบทดสอบความพร้อม<br>ทางอาชีพ</h1>
-    <p class="intro-subtitle">ค้นพบอาชีพที่ใช่สำหรับคุณ ผ่านการวิเคราะห์ความสนใจและสไตล์การทำงาน ไม่มีคำตอบถูกหรือผิด</p>
-  </div>
-  <div class="intro-parts">
-    <div class="part-card">
-      <div class="part-badge a">ส่วนที่ ก</div>
-      <div class="part-card-title">ความสนใจทางอาชีพ</div>
-      <div class="part-card-desc">54 ข้อ · RIASEC Model<br>ระบุความชอบในแต่ละสาย</div>
+    <div class="screen active" id="screen-intro">
+        <div class="card" style="text-align:center;">
+            <h1>แบบทดสอบความพร้อมทางอาชีพ</h1>
+            <p style="color:var(--text-secondary); margin: 20px 0;">วิเคราะห์ความสนใจ สไตล์การทำงาน และความมั่นใจของคุณแบบบูรณาการ</p>
+            <button class="btn-nav btn-primary" onclick="changeScreen('A')">เริ่มส่วนที่ ก: ความสนใจ →</button>
+        </div>
     </div>
-    <div class="part-card">
-      <div class="part-badge b">ส่วนที่ ข</div>
-      <div class="part-card-title">สไตล์การทำงาน</div>
-      <div class="part-card-desc">18 ข้อ · D / P / T Style<br>จัดลำดับสถานการณ์</div>
+
+    <div class="screen" id="screen-A">
+        <div class="q-tag q-tag-a">ส่วนที่ ก: ความสนใจ (คุณ "ชอบ" งานนี้แค่ไหน)</div>
+        <div class="card">
+            <p id="q-count-A" style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;"></p>
+            <h2 class="career-title" id="q-text-A"></h2>
+            <div class="btn-grid">
+                <button class="ans-btn" id="btnA-2" onclick="selectA(2)">ชอบมาก (2)</button>
+                <button class="ans-btn" id="btnA-1" onclick="selectA(1)">เฉยๆ (1)</button>
+                <button class="ans-btn" id="btnA-0" onclick="selectA(0)">ไม่ชอบ (0)</button>
+            </div>
+        </div>
+        <div class="nav-footer">
+            <button class="btn-back" onclick="navA(-1)">ย้อนกลับ</button>
+        </div>
     </div>
-  </div>
-  <div class="name-field">
-    <span style="font-size:18px">👤</span>
-    <input type="text" id="userName" placeholder="ชื่อของคุณ (ไม่บังคับ)" maxlength="60">
-  </div>
-  <p class="name-hint">ใส่ชื่อเพื่อให้ผลลัพธ์เป็นส่วนตัวมากขึ้น</p>
-  <button class="btn-primary" onclick="startTest()">เริ่มทำแบบทดสอบ →</button>
-</div>
 
-<!-- ════════════════ SECTION A ════════════════ -->
-<div class="screen" id="screen-A">
-  <div class="section-header">
-    <div class="section-tag a"><span class="section-tag-dot"></span>ส่วนที่ ก · ความสนใจทางอาชีพ (RIASEC)</div>
-    <div class="section-q-label" id="qLabelA"></div>
-    <div class="section-q-text">คุณรู้สึกอย่างไรกับการทำงานในอาชีพนี้?</div>
-  </div>
-  <div class="card">
-    <div class="interest-career" id="careerName"></div>
-    <div class="interest-hint">เลือกระดับความสนใจของคุณ</div>
-    <div class="interest-btns">
-      <button class="interest-btn" id="btn2" onclick="selectA(2)">
-        <div class="btn-score">😊</div>
-        <div class="btn-label">ชอบมาก<br><span style="font-size:11px;color:#94A3B8">(2 คะแนน)</span></div>
-      </button>
-      <button class="interest-btn" id="btn1" onclick="selectA(1)">
-        <div class="btn-score">😐</div>
-        <div class="btn-label">เฉยๆ<br><span style="font-size:11px;color:#94A3B8">(1 คะแนน)</span></div>
-      </button>
-      <button class="interest-btn" id="btn0" onclick="selectA(0)">
-        <div class="btn-score">😑</div>
-        <div class="btn-label">ไม่ชอบ<br><span style="font-size:11px;color:#94A3B8">(0 คะแนน)</span></div>
-      </button>
+    <div class="screen" id="screen-B">
+        <div class="q-tag q-tag-b">ส่วนที่ ข: สไตล์การทำงาน (เน้น D / P / T)</div>
+        <div class="card">
+            <p id="q-count-B" style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;"></p>
+            <p id="q-text-B" style="font-weight:700; margin-bottom:15px; font-size:18px;"></p>
+            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:12px;">คลิกเพื่อเรียงลำดับ 1 (มากที่สุด) ไปยัง 3 (น้อยที่สุด)</p>
+            <div id="rank-options-B"></div>
+            <button class="btn-nav btn-teal" onclick="nextB()" id="btn-next-B" style="display:none;">ถัดไป</button>
+        </div>
     </div>
-  </div>
-  <div class="nav-row">
-    <button class="btn-nav" id="btnPrevA" onclick="navA(-1)">← ย้อนกลับ</button>
-    <span class="nav-counter" id="cntA"></span>
-    <button class="btn-nav-primary" id="btnNextA" onclick="navA(1)" disabled>ถัดไป →</button>
-  </div>
-</div>
 
-<!-- ════════════════ SECTION B ════════════════ -->
-<div class="screen" id="screen-B">
-  <div class="section-header">
-    <div class="section-tag b"><span class="section-tag-dot"></span>ส่วนที่ ข · สไตล์การทำงาน (D/P/T)</div>
-    <div class="section-q-label" id="qLabelB"></div>
-    <div class="section-q-text" id="qTextB"></div>
-  </div>
-  <div class="card">
-    <div class="rank-hint">
-      <span>👆</span> คลิกเพื่อเรียงลำดับจากชอบมากที่สุด (1) ไปน้อยที่สุด (3)
+    <div class="screen" id="screen-summary1">
+        <div class="card" style="text-align:center;">
+            <h2 style="color:var(--primary);">ผลลัพธ์รอบแรก: ความสนใจ</h2>
+            <div style="margin:20px 0; min-height: 250px;"><canvas id="chartA"></canvas></div>
+            <div id="summary1-desc" class="analysis-box"></div>
+            <hr style="margin:20px 0; border:0; border-top:1px solid var(--border);">
+            <h3>ต่อไป: วัดความมั่นใจ (Test C)</h3>
+            <p style="font-size:13px; margin:10px 0;">เห็นอาชีพที่ชอบแล้ว มาลองวัดดูว่าคุณ "ทำได้ดี" แค่ไหน</p>
+            <button class="btn-nav btn-purple" onclick="changeScreen('C')">เริ่มส่วนที่ ค: ความมั่นใจ →</button>
+        </div>
     </div>
-    <div class="rank-options" id="rankOptions"></div>
-  </div>
-  <div class="nav-row">
-    <button class="btn-nav" id="btnPrevB" onclick="navB(-1)">← ย้อนกลับ</button>
-    <span class="nav-counter" id="cntB"></span>
-    <button class="btn-nav-primary" id="btnNextB" onclick="navB(1)">ถัดไป →</button>
-  </div>
-</div>
 
-<!-- ════════════════ RESULT ════════════════ -->
-<div class="screen" id="screen-result">
-  <div class="result-hero">
-    <div class="result-combo-badge" id="rComboBadge"></div>
-    <div class="result-combo-title" id="rComboTitle"></div>
-    <div class="result-combo-name" id="rComboName"></div>
-    <p class="result-desc" id="rDesc"></p>
-  </div>
-
-  <div class="chart-grid">
-    <div class="card">
-      <div class="chart-card-title">📊 คะแนน RIASEC</div>
-      <canvas id="radarChart" height="180"></canvas>
+    <div class="screen" id="screen-C">
+        <div class="q-tag q-tag-c">ส่วนที่ ค: ความมั่นใจ (คุณ "มั่นใจ" ว่าทำได้ดีแค่ไหน)</div>
+        <div class="card">
+            <p id="q-count-C" style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;"></p>
+            <h2 class="career-title" id="q-text-C"></h2>
+            <div class="btn-grid">
+                <button class="ans-btn" id="btnC-2" onclick="selectC(2)">มั่นใจมาก (2)</button>
+                <button class="ans-btn" id="btnC-1" onclick="selectC(1)">ปานกลาง (1)</button>
+                <button class="ans-btn" id="btnC-0" onclick="selectC(0)">ไม่มั่นใจ (0)</button>
+            </div>
+        </div>
+        <div class="nav-footer">
+            <button class="btn-back" onclick="navC(-1)">ย้อนกลับ</button>
+        </div>
     </div>
-    <div class="card">
-      <div class="chart-card-title">📊 สไตล์การทำงาน</div>
-      <canvas id="barChart" height="180"></canvas>
+
+    <div class="screen" id="screen-final">
+        <div class="card">
+            <h2 style="text-align:center; margin-bottom:20px;">บทสรุปศักยภาพทางอาชีพ</h2>
+            
+            <!-- ส่วนที่เพิ่มใหม่: สรุปรหัสรหัสตัวอักษร -->
+            <div id="code-summary-box" class="code-summary-flex"></div>
+
+            <div style="margin-bottom:20px; min-height: 250px;"><canvas id="finalComparisonChart"></canvas></div>
+            
+            <div id="gap-analysis-box" class="analysis-box" style="border-left: 5px solid var(--purple);"></div>
+
+            <div class="comparison-grid">
+                <div class="comp-card">
+                    <h4>อาชีพที่คุณใฝ่ฝัน (Interest + Style)</h4>
+                    <div id="list-dream"></div>
+                </div>
+                <div class="comp-card">
+                    <h4>อาชีพที่คุณทำได้จริง (Competence + Style)</h4>
+                    <div id="list-capable"></div>
+                </div>
+            </div>
+
+            <button class="btn-nav btn-primary" onclick="location.reload()" style="margin-top:30px;">ทำแบบทดสอบใหม่</button>
+        </div>
     </div>
-  </div>
 
-  <div class="card">
-    <div class="chart-card-title">🎯 คะแนนรายกลุ่ม RIASEC</div>
-    <div class="score-bars" id="riasecBars"></div>
-  </div>
-
-  <div class="card">
-    <div class="chart-card-title">💼 อาชีพที่เหมาะกับคุณ</div>
-    <div class="career-grid" id="careerChips"></div>
-  </div>
-
-  <div class="result-actions">
-    <button class="btn-secondary" onclick="resetAll()">🔄 ทำใหม่</button>
-    <button class="btn-secondary" onclick="copyResult()">📋 คัดลอกผล</button>
-  </div>
-</div>
-
-</div><!-- /app-shell -->
-
-<!-- Transition overlay -->
-<div class="transition-overlay" id="transOverlay">
-  <div class="transition-content">
-    <div class="transition-icon" id="transIcon">✅</div>
-    <div class="transition-text" id="transText">กำลังประมวลผล...</div>
-  </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════
-//  DATA
-// ══════════════════════════════════════════
-const CAREERS_A = [
-  {id:1,text:"ออกแบบตกแต่งภายใน",g:"A"},
-  {id:2,text:"สำรวจทางวิทยาศาสตร์ในมหาวิทยาลัยหรือศูนย์วิจัย",g:"I"},
-  {id:3,text:"บริการในโรงแรม งานประชาสัมพันธ์ งานแผนกต้อนรับ",g:"S"},
-  {id:4,text:"จัดทำบันทึกหรือจัดเก็บเอกสารโดยใช้คอมพิวเตอร์",g:"C"},
-  {id:5,text:"จัดการ (ดำเนิน) ธุรกิจส่วนตัว",g:"E"},
-  {id:6,text:"แสดงภาพยนตร์ ละคร หรือแสดงบนเวที",g:"A"},
-  {id:7,text:"ตัดผม-เย็บเสื้อผ้า",g:"R"},
-  {id:8,text:"วัดและวิเคราะห์มลพิษ มลภาวะต่าง ๆ เช่น อากาศ น้ำ",g:"I"},
-  {id:9,text:"ตัดผม งานร้านทำผม หรืองานบริการเสริมสวย",g:"S"},
-  {id:10,text:"คิดคำนวณและออกใบเสร็จรับเงิน",g:"C"},
-  {id:11,text:"กํากับรายการโทรทัศน์ วิทยุ",g:"E"},
-  {id:12,text:"ประพันธ์นวนิยาย บทความลงพิมพ์ในนิตยสาร",g:"A"},
-  {id:13,text:"รับก่อสร้างบ้านและอาคาร โดยใช้ไม้หรือวัสดุอื่น ๆ",g:"R"},
-  {id:14,text:"สำรวจเรื่องการปรับปรุงคุณภาพของพืชพันธ์หรือวิจัยทางการเกษตร",g:"I"},
-  {id:15,text:"พนักงานเก็บเงินในซุปเปอร์เซ็นเตอร์",g:"S"},
-  {id:16,text:"งานเสมียน งานลงรับเอกสารและจัดเก็บเอกสาร",g:"C"},
-  {id:17,text:"วางแผนโฆษณาหรืองานบันเทิง",g:"E"},
-  {id:18,text:"เป็นพิธีกรในรายการทางโทรทัศน์และวิทยุ",g:"A"},
-  {id:19,text:"เพาะปลูกพืชและไม้ดอก",g:"R"},
-  {id:20,text:"งานพัฒนายานอวกาศ",g:"R"},
-  {id:21,text:"อธิบาลเด็กในโรงเรียนอนุบาล",g:"S"},
-  {id:22,text:"เจ้าหน้าที่ดูแลการเงิน",g:"C"},
-  {id:23,text:"นำเข้าสินค้าจากต่างประเทศ (สินค้าใหม่หรือหายาก)",g:"E"},
-  {id:24,text:"จัดทำฉากรายการโทรทัศน์และภาพยนตร์",g:"A"},
-  {id:25,text:"ขับรถยกหรือรถตักดินในสถานที่ก่อสร้าง",g:"R"},
-  {id:26,text:"สำรวจทางกายภาพและชีวภาพทางทะเล",g:"I"},
-  {id:27,text:"ดูแลคนชราตามบ้าน",g:"S"},
-  {id:28,text:"เป็นตัวแทนหรือนายหน้าในการจัดเตรียมเอกสารเพื่อยื่นต่อหน่วยงานราชการ",g:"C"},
-  {id:29,text:"เป็นผู้บริหารกิจการเปิดใหม่",g:"E"},
-  {id:30,text:"ครูสอนนักแสดง",g:"A"},
-  {id:31,text:"บริการด้านขนส่งสิ่งของ",g:"R"},
-  {id:32,text:"สำรวจและทดลองเพื่อตรวจหาเชื้อโรค",g:"I"},
-  {id:33,text:"ขายของเบ็ดเตล็ด",g:"E"},
-  {id:34,text:"ป้อนข้อมูลต่าง ๆ เก็บไว้ในคอมพิวเตอร์",g:"C"},
-  {id:35,text:"เขียนคอลัมน์ในหน้าหนังสือพิมพ์",g:"A"},
-  {id:36,text:"เรียบเรียงและประพันธ์เพลง",g:"A"},
-  {id:37,text:"รับตั้งและตรวจซ่อมเบรกและเครื่องยนต์",g:"R"},
-  {id:38,text:"พัฒนาตัวยาใหม่ ๆ",g:"I"},
-  {id:39,text:"ให้การรักษาทางการแพทย์แก่คนไข้และป้องกันโรค",g:"I"},
-  {id:40,text:"การคิดคำนวณที่สลับซับซ้อนโดยใช้เครื่องคอมพิวเตอร์",g:"C"},
-  {id:41,text:"บริหารงานในบริษัท",g:"E"},
-  {id:42,text:"รับจ้างเล่นเปียโน",g:"A"},
-  {id:43,text:"ประกอบชิ้นส่วนเครื่องจักร",g:"R"},
-  {id:44,text:"บำรุงรักษาสิ่งของพื้นบ้านที่มีคุณค่าทางประวัติศาสตร์",g:"I"},
-  {id:45,text:"วัดปรอท-ความดันเลือด และอภิบาลคนไข้ในโรงพยาบาล",g:"S"},
-  {id:46,text:"ถ่ายเอกสารและรับโทรศัพท์จากภายนอก",g:"C"},
-  {id:47,text:"วางแผนการสต๊อคสินค้าและวางแผนการขายสินค้าในฐานะผู้จัดการสาขา",g:"E"},
-  {id:48,text:"ออกแบบและตกแต่งเสื้อผ้า",g:"A"},
-  {id:49,text:"ทำประมง",g:"R"},
-  {id:50,text:"คิดหาวิธีการใหม่และทดสอบความคิดนั้นโดยการสำรวจและทดลอง",g:"I"},
-  {id:51,text:"บริการผู้โดยสารบนเครื่องบิน",g:"S"},
-  {id:52,text:"ตรวจสอบ (นับ) เงินเดือนคนงาน",g:"C"},
-  {id:53,text:"เก็บสต๊อคสินค้าและคิดวางแผนงานขาย",g:"E"},
-  {id:54,text:"วาดภาพประกอบเรื่องในแม็กกาซีน",g:"A"}
+// --- Data ---
+const CAREERS = [
+    {id:1,text:"ออกแบบตกแต่งภายใน",g:"A"}, 
+    {id:2,text:"สำรวจทางวิทยาศาสตร์ในมหาวิทยาลัยหรือศูนย์วิจัย",g:"I"},
+    {id:3,text:"บริการในโรงแรม งานประชาสัมพันธ์ งานแผนกต้อนรับ",g:"S"}, 
+    {id:4,text:"จัดทำบันทึกหรือจัดเก็บเอกสารโดยใช้คอมพิวเตอร์",g:"C"},
+    {id:5,text:"จัดการ (ดำเนิน) ธุรกิจส่วนตัว",g:"E"}, 
+    {id:6,text:"แสดงภาพยนตร์ ละคร หรือแสดงบนเวที",g:"A"},
+    {id:7,text:"ตัดผม-เย็บเสื้อผ้า",g:"R"}, 
+    {id:8,text:"วัดและวิเคราะห์มลพิษ มลภาวะต่าง ๆ เช่น อากาศ น้ำ",g:"I"},
+    {id:9,text:"งานร้านทำผม หรืองานบริการเสริมสวย",g:"S"}, 
+    {id:10,text:"คิดคำนวณและออกใบเสร็จรับเงิน",g:"C"},
+    {id:11,text:"กํากับรายการโทรทัศน์ วิทยุ",g:"E"}, 
+    {id:12,text:"ประพันธ์นวนิยาย บทความลงพิมพ์ในนิตยสาร",g:"A"},
+    {id:13,text:"รับก่อสร้างบ้านและอาคาร โดยใช้ไม้หรือวัสดุอื่น ๆ",g:"R"}, 
+    {id:14,text:"สำรวจเรื่องการปรับปรุงคุณภาพของพืชพันธ์หรือวิจัยทางการเกษตร",g:"I"},
+    {id:15,text:"พนักงานเก็บเงินในซุปเปอร์เซ็นเตอร์",g:"S"}, 
+    {id:16,text:"งานเสมียน งานลงรับเอกสารและจัดเก็บเอกสาร",g:"C"},
+    {id:17,text:"วางแผนโฆษณาหรืองานบันเทิง",g:"E"}, 
+    {id:18,text:"เป็นพิธีกรในรายการทางโทรทัศน์และวิทยุ",g:"A"},
+    {id:19,text:"เพาะปลูกพืชและไม้ดอก",g:"R"}, 
+    {id:20,text:"งานพัฒนายานอวกาศ",g:"I"},
+    {id:21,text:"อภิบาลเด็กในโรงเรียนอนุบาล",g:"S"}, 
+    {id:22,text:"เจ้าหน้าที่ดูแลการเงิน",g:"C"},
+    {id:23,text:"นำเข้าสินค้าจากต่างประเทศ (สินค้าใหม่หรือหายาก)",g:"E"}, 
+    {id:24,text:"จัดทำฉากรายการโทรทัศน์และภาพยนตร์",g:"A"},
+    {id:25,text:"ขับรถยกหรือรถตักดินในสถานที่ก่อสร้าง",g:"R"}, 
+    {id:26,text:"สำรวจทางกายภาพและชีวภาพทางทะเล",g:"I"},
+    {id:27,text:"ดูแลคนชราตามบ้าน",g:"S"}, 
+    {id:28,text:"เป็นตัวแทนหรือนายหน้าในการจัดเตรียมเอกสาร",g:"C"},
+    {id:29,text:"เป็นผู้บริหารกิจการเปิดใหม่",g:"E"}, 
+    {id:30,text:"ครูสอนนักแสดง",g:"A"},
+    {id:31,text:"บริการด้านขนส่งสิ่งของ",g:"R"}, 
+    {id:32,text:"สำรวจและทดลองเพื่อตรวจหาเชื้อโรค",g:"I"},
+    {id:33,text:"ขายของเบ็ดเตล็ด",g:"E"}, 
+    {id:34,text:"ป้อนข้อมูลต่าง ๆ เก็บไว้ในคอมพิวเตอร์",g:"C"},
+    {id:35,text:"เขียนคอลัมน์ในหน้าหนังสือพิมพ์",g:"A"}, 
+    {id:36,text:"เรียบเรียงและประพันธ์เพลง",g:"A"},
+    {id:37,text:"รับตั้งและตรวจซ่อมเบรกและเครื่องยนต์",g:"R"}, 
+    {id:38,text:"พัฒนาตัวยาใหม่ ๆ",g:"I"},
+    {id:39,text:"รักษาทางการแพทย์แก่คนไข้",g:"I"}, 
+    {id:40,text:"การคิดคำนวณที่สลับซับซ้อนโดยใช้คอมพิวเตอร์",g:"C"},
+    {id:41,text:"บริหารงานในบริษัท",g:"E"}, 
+    {id:42,text:"รับจ้างเล่นเปียโน",g:"A"},
+    {id:43,text:"ประกอบชิ้นส่วนเครื่องจักร",g:"R"}, 
+    {id:44,text:"บำรุงรักษาสิ่งของพื้นบ้านประวัติศาสตร์",g:"I"},
+    {id:45,text:"วัดปรอท-ความดันเลือด อภิบาลคนไข้ในโรงพยาบาล",g:"S"}, 
+    {id:46,text:"ถ่ายเอกสารและรับโทรศัพท์จากภายนอก",g:"C"},
+    {id:47,text:"วางแผนการสต๊อคสินค้าและวางแผนการขาย",g:"E"}, 
+    {id:48,text:"ออกแบบและตกแต่งเสื้อผ้า",g:"A"},
+    {id:49,text:"ทำประมง",g:"R"}, 
+    {id:50,text:"คิดหาวิธีการใหม่และทดสอบความคิดนั้น",g:"I"},
+    {id:51,text:"บริการผู้โดยสารบนเครื่องบิน",g:"S"}, 
+    {id:52,text:"ตรวจสอบ (นับ) เงินเดือนคนงาน",g:"C"},
+    {id:53,text:"เก็บสต๊อคสินค้าและคิดวางแผนงานขาย",g:"E"}, 
+    {id:54,text:"วาดภาพประกอบเรื่องในแม็กกาซีน",g:"A"}
 ];
 
 const QUESTIONS_B = [
-  {t:"ถ้าคุณเล่นเกมส์ คุณเลือกเล่นเกมส์แบบไหน",o:[
-    {l:"ก — เกมส์ที่ต้องใช้ความคิดพิจารณาการเล่นอย่างรอบคอบ",tp:"D"},
-    {l:"ข — เกมส์ที่ให้ความเพลิดเพลินกับเพื่อนฝูง",tp:"P"},
-    {l:"ค — เกมส์ที่ให้คะแนนสูง",tp:"T"}]},
-  {t:"หากคุณกําลังเตรียมจัดละครสักเรื่องหนึ่ง หน้าที่ใดที่คุณต้องการทำ",o:[
-    {l:"ก — เป็นผู้เขียนละคร",tp:"D"},
-    {l:"ข — เป็นผู้แสดงบนเวที",tp:"P"},
-    {l:"ค — จัดเตรียมฉากและอุปกรณ์",tp:"T"}]},
-  {t:"คุณคิดว่าคุณชื่นชอบดนตรีในลักษณะใด",o:[
-    {l:"ก — ฟังเพลง",tp:"D"},
-    {l:"ข — ร้องเพลงกับเพื่อนและเล่นเปียโน",tp:"P"},
-    {l:"ค — ฝึกเล่นเปียโนด้วยตนเอง",tp:"T"}]},
-  {t:"ถ้าคุณมีการบ้าน คุณจะตอบคำถามอย่างไร",o:[
-    {l:"ก — ใช้หนังสืออ้างอิง",tp:"D"},
-    {l:"ข — สอบถามเพื่อน",tp:"P"},
-    {l:"ค — หาคำตอบด้วยตนเอง",tp:"T"}]},
-  {t:"คุณชอบอ่านหนังสือประเภทใด",o:[
-    {l:"ก — เรื่องจินตนาการเกี่ยวกับอวกาศ",tp:"D"},
-    {l:"ข — นิยายรัก",tp:"P"},
-    {l:"ค — หนังสือวิชาการ",tp:"T"}]},
-  {t:"ถ้าคุณได้รับเลือกดำรงตำแหน่งผู้จัดการสโมสรกีฬา กิจกรรมใดที่คุณคิดว่าสำคัญ",o:[
-    {l:"ก — จดบันทึกสถิติอย่างละเอียด",tp:"D"},
-    {l:"ข — ดูแลทุกข์สุขของสมาชิกอย่างเอาใจใส่",tp:"P"},
-    {l:"ค — ตรวจสอบอุปกรณ์กีฬาและซ่อมแซม",tp:"T"}]},
-  {t:"คุณจะเลือกวิธีการหาข้อมูลแบบใดในการเลือกซื้อวิทยุ-เทป สักเครื่อง",o:[
-    {l:"ก — หาข้อมูลจากหนังสือแนะนำ",tp:"D"},
-    {l:"ข — ถามจากเพื่อนฝูง",tp:"P"},
-    {l:"ค — ทดสอบเสียงจากร้านโดยตรง",tp:"T"}]},
-  {t:"การศึกษาลักษณะใดที่คุณชอบ",o:[
-    {l:"ก — การศึกษาวิธีแก้ปัญหาโดยการใช้ตำรา",tp:"D"},
-    {l:"ข — การศึกษาจากการหารือกันระหว่างเพื่อนฝูง",tp:"P"},
-    {l:"ค — การศึกษาจากการฝึกฝนและทดลอง",tp:"T"}]},
-  {t:"หากคุณได้เป็นผู้จัดการทีมเบสบอล คุณคิดว่างานอะไรที่เป็นงานหลัก",o:[
-    {l:"ก — เก็บข้อมูลเกี่ยวกับผู้เล่นแต่ละคน",tp:"D"},
-    {l:"ข — เอาใจใส่ต่อการเล่นเป็นทีม",tp:"P"},
-    {l:"ค — ปรับปรุงอุปกรณ์ฝึกซ้อมกีฬาให้ดีขึ้น",tp:"T"}]},
-  {t:"หากคุณได้รับบาดเจ็บ คุณต้องการอะไรเป็นสิ่งชดเชย",o:[
-    {l:"ก — หนังสืออ่านเล่น",tp:"D"},
-    {l:"ข — จดหมายแสดงความเสียใจ",tp:"P"},
-    {l:"ค — เครื่องเล่นเกมส์คอมพิวเตอร์ชนิดกระเป๋า",tp:"T"}]},
-  {t:"ถ้าคุณเปิดร้ายขายของ คุณมีแผนการขายอย่างไร",o:[
-    {l:"ก — ตั้งราคาอย่างระมัดระวัง",tp:"D"},
-    {l:"ข — ขายสินค้าที่ละชนิด",tp:"P"},
-    {l:"ค — ผลิตสินค้าที่ขายดี",tp:"T"}]},
-  {t:"คุณอยากทำกิจกรรมอะไร ถ้าคุณเป็นอาสาสมัครดูแลคนชราตามบ้านพัก",o:[
-    {l:"ก — คิดกิจกรรมบันเทิงสำหรับคนชรา",tp:"D"},
-    {l:"ข — พูดคุยกับคนชรา",tp:"P"},
-    {l:"ค — ทำความสะอาดที่พักของคนชรา",tp:"T"}]},
-  {t:"ถ้าคุณได้รับการแต่งตั้งเป็นผู้นำศูนย์ในชั้นเรียน ครูอยากเป็นผู้นำศูนย์อะไร",o:[
-    {l:"ก — ศูนย์บริการด้านห้องสมุด",tp:"D"},
-    {l:"ข — ศูนย์บริการสุขภาพและอนามัย",tp:"P"},
-    {l:"ค — ศูนย์บริการด้านเสริมความงาม",tp:"T"}]},
-  {t:"หากคุณต้องไปท่องเที่ยว สิ่งแรกที่คุณดำเนินการคือ",o:[
-    {l:"ก — ติดต่อสอบถามใครสักคนที่รู้จักสถานที่ท่องเที่ยวนั้นเป็นอย่างดี",tp:"D"},
-    {l:"ข — ชักชวนใครบางคนไปกับคุณด้วย",tp:"P"},
-    {l:"ค — มองหาสถานที่ที่จะไปท่องเที่ยวจากแผนที่",tp:"T"}]},
-  {t:"คุณประสงค์จะอ่านหนังสือประวัติศาสตร์ของผู้ที่มีชื่อเสียงด้านใด",o:[
-    {l:"ก — ด้านรัฐศาสตร์",tp:"D"},
-    {l:"ข — ด้านปรัชญา",tp:"P"},
-    {l:"ค — ด้านวิทยาศาสตร์",tp:"T"}]},
-  {t:"ถ้าคุณเก่งในทางสนทนาเป็นภาษาอังกฤษ คุณอยากได้งานประเภทใด",o:[
-    {l:"ก — ผู้สื่อข่าว",tp:"D"},
-    {l:"ข — มัคคุเทศก์",tp:"P"},
-    {l:"ค — ผู้แปล",tp:"T"}]},
-  {t:"ถ้าคุณจะออกไปธุระนอกบ้าน ข้อมูลจากที่ใดจะเป็นตัวบ่งบอกคุณว่าจะถือร่มไปด้วยไหม",o:[
-    {l:"ก — จากการพยากรณ์อากาศของกรมอุตุนิยมวิทยา",tp:"D"},
-    {l:"ข — จากคนรอบข้างเสนอแนะมา",tp:"P"},
-    {l:"ค — จากการตัดสินใจของตัวเอง",tp:"T"}]},
-  {t:"งานอดิเรกแบบใดที่คุณอยากทำหลังจากคุณอายุ 50 ปีไปแล้ว",o:[
-    {l:"ก — วาดรูปและเล่นดนตรี",tp:"D"},
-    {l:"ข — เล่นกีฬากับเพื่อนฝูง",tp:"P"},
-    {l:"ค — ดูแลดอกไม้และสวน",tp:"T"}]}
+    {t:"ถ้าคุณเล่นเกมส์ คุณเลือกเล่นเกมส์แบบไหน",o:[{l:"ก — เกมส์ที่ต้องใช้ความคิดพิจารณาอย่างรอบคอบ",tp:"D"},{l:"ข — เกมส์ที่ให้ความเพลิดเพลินกับเพื่อนฝูง",tp:"P"},{l:"ค — เกมส์ที่ให้คะแนนสูง",tp:"T"}]},
+    {t:"หากคุณกำลังเตรียมจัดละครสักเรื่องหนึ่ง หน้าที่ใดที่คุณต้องการทำ",o:[{l:"ก — เป็นผู้เขียนละคร",tp:"D"},{l:"ข — เป็นผู้แสดงบนเวที",tp:"P"},{l:"ค — จัดเตรียมฉากและอุปกรณ์",tp:"T"}]},
+    {t:"คุณคิดว่าคุณชื่นชอบดนตรีในลักษณะใด",o:[{l:"ก — ฟังเพลง",tp:"D"},{l:"ข — ร้องเพลงกับเพื่อนและเล่นเปียโน",tp:"P"},{l:"ค — ฝึกเล่นเปียโนด้วยตนเอง",tp:"T"}]},
+    {t:"ถ้าคุณมีการบ้าน คุณจะตอบคำถามอย่างไร",o:[{l:"ก — ใช้หนังสืออ้างอิง",tp:"D"},{l:"ข — สอบถามเพื่อน",tp:"P"},{l:"ค — หาคำตอบด้วยตนเอง",tp:"T"}]},
+    {t:"คุณชอบอ่านหนังสือประเภทใด",o:[{l:"ก — เรื่องจินตนาการเกี่ยวกับอวกาศ",tp:"D"},{l:"ข — นิยายรัก",tp:"P"},{l:"ค — หนังสือวิชาการ",tp:"T"}]},
+    {t:"กิจกรรมใดที่คุณคิดว่าสำคัญในการดำรงตำแหน่งผู้จัดการสโมสร",o:[{l:"ก — จดบันทึกสถิติอย่างละเอียด",tp:"D"},{l:"ข — ดูแลทุกข์สุขของสมาชิก",tp:"P"},{l:"ค — ตรวจสอบอุปกรณ์และซ่อมแซม",tp:"T"}]},
+    {t:"วิธีหาข้อมูลในการเลือกซื้อวิทยุสักเครื่อง",o:[{l:"ก — หาข้อมูลจากหนังสือแนะนำ",tp:"D"},{l:"ข — ถามจากเพื่อนฝูง",tp:"P"},{l:"ค — ทดสอบเสียงจากร้านโดยตรง",tp:"T"}]},
+    {t:"การศึกษาลักษณะใดที่คุณชอบ",o:[{l:"ก — การศึกษาวิธีแก้ปัญหาโดยใช้ตำรา",tp:"D"},{l:"ข — การศึกษาหารือระหว่างเพื่อนฝูง",tp:"P"},{l:"ค — การศึกษาจากการฝึกฝนและทดลอง",tp:"T"}]},
+    {t:"หากได้เป็นผู้จัดการทีมเบสบอล งานอะไรคือหลัก",o:[{l:"ก — เก็บข้อมูลเกี่ยวกับผู้เล่นแต่ละคน",tp:"D"},{l:"ข — เอาใจใส่ต่อการเล่นเป็นทีม",tp:"P"},{l:"ค — ปรับปรุงอุปกรณ์ฝึกซ้อม",tp:"T"}]},
+    {t:"หากได้รับบาดเจ็บ คุณต้องการอะไรเป็นสิ่งชดเชย",o:[{l:"ก — หนังสืออ่านเล่น",tp:"D"},{l:"ข — จดหมายแสดงความเสียใจ",tp:"P"},{l:"ค — เครื่องเล่นเกมส์",tp:"T"}]},
+    {t:"ถ้าคุณเปิดร้านขายของ คุณมีแผนการขายอย่างไร",o:[{l:"ก — ตั้งราคาอย่างระมัดระวัง",tp:"D"},{l:"ข — ขายสินค้าที่ละชนิด",tp:"P"},{l:"ค — ผลิตสินค้าที่ขายดี",tp:"T"}]},
+    {t:"อาสาสมัครดูแลคนชรา คุณอยากทำอะไร",o:[{l:"ก — คิดกิจกรรมบันเทิงสำหรับคนชรา",tp:"D"},{l:"ข — พูดคุยกับคนชรา",tp:"P"},{l:"ค — ทำความสะอาดที่พัก",tp:"T"}]},
+    {t:"หากเป็นผู้นำศูนย์ในชั้นเรียน อยากทำศูนย์อะไร",o:[{l:"ก — ศูนย์บริการด้านห้องสมุด",tp:"D"},{l:"ข — ศูนย์บริการสุขภาพ",tp:"P"},{l:"ค — ศูนย์บริการเสริมความงาม",tp:"T"}]},
+    {t:"หากต้องไปท่องเที่ยว สิ่งแรกที่คุณดำเนินการคือ",o:[{l:"ก — ติดต่อสอบถามคนที่รู้จักสถานที่",tp:"D"},{l:"ข — ชักชวนใครบางคนไปกับคุณ",tp:"P"},{l:"ค — มองหาสถานที่จากแผนที่",tp:"T"}]},
+    {t:"คุณประสงค์จะอ่านประวัติของบุคคลที่มีชื่อเสียงด้านใด",o:[{l:"ก — ด้านรัฐศาสตร์",tp:"D"},{l:"ข — ด้านปรัชญา",tp:"P"},{l:"ค — ด้านวิทยาศาสตร์",tp:"T"}]},
+    {t:"ถ้าเก่งสนทนาภาษาอังกฤษ คุณอยากได้งานแบบไหน",o:[{l:"ก — ผู้สื่อข่าว",tp:"D"},{l:"ข — มัคคุเทศก์",tp:"P"},{l:"ค — ผู้แปล",tp:"T"}]},
+    {t:"จะถือร่มออกจากบ้านไหม คุณดูข้อมูลจากไหน",o:[{l:"ก — กรมอุตุนิยมวิทยา",tp:"D"},{l:"ข — คนรอบข้างแนะนำ",tp:"P"},{l:"ค — ตัดสินใจด้วยตัวเอง",tp:"T"}]},
+    {t:"งานอดิเรกหลังอายุ 50 ปี",o:[{l:"ก — วาดรูปและเล่นดนตรี",tp:"D"},{l:"ข — เล่นกีฬากับเพื่อนฝูง",tp:"P"},{l:"ค — ดูแลดอกไม้และสวน",tp:"T"}]}
 ];
 
-const RIASEC_INFO = {
-  R:{n:"Realistic",th:"ช่างฝีมือ",c:"#0EA5E9",d:"ชอบทำงานกับเครื่องมือ เครื่องจักร และสิ่งที่จับต้องได้ มีความสามารถเชิงปฏิบัติและมุ่งเน้นผลลัพธ์ที่เป็นรูปธรรม"},
-  I:{n:"Investigative",th:"นักวิเคราะห์",c:"#6366F1",d:"ชอบแก้ปัญหาซับซ้อนและสำรวจแนวคิดใหม่ๆ มีความอยากรู้อยากเห็น ชอบวิเคราะห์และเข้าใจกลไกต่างๆ"},
-  S:{n:"Social",th:"นักสังคม",c:"#14B8A6",d:"เติบโตด้วยการเชื่อมต่อกับผู้อื่นและช่วยเหลือคน มีความเห็นอกเห็นใจสูงและทักษะสื่อสารดีเยี่ยม"},
-  C:{n:"Conventional",th:"นักระเบียบ",c:"#F59E0B",d:"เก่งในงานที่มีโครงสร้างชัดเจน ใส่ใจรายละเอียด เชื่อถือได้ และสะดวกสบายกับกฎและระเบียบ"},
-  E:{n:"Enterprising",th:"นักผู้นำ",c:"#EF4444",d:"กระตือรือร้น ทะเยอทะยาน และชอบนำผู้อื่น เติบโตในสภาพแวดล้อมธุรกิจและการแข่งขัน"},
-  A:{n:"Artistic",th:"นักสร้างสรรค์",c:"#EC4899",d:"แสดงออกผ่านความคิดสร้างสรรค์ ให้ความสำคัญกับความเป็นต้นแบบ จินตนาการ และการแสดงตัวตน"}
+const CAREER_MAPPING = {
+    "R+D": ["วิศวกรวิเคราะห์ภาคสนาม", "นักพัฒนายานอวกาศ", "นักสำรวจมลพิษ"],
+    "R+P": ["ผู้นำทีมขนส่ง", "คนขับเครื่องจักรงานทีม", "เจ้าของกิจการประมง"],
+    "R+T": ["ช่างซ่อมเครื่องยนต์", "ช่างประกอบเครื่องจักร", "เกษตรกร/คนเลี้ยงสัตว์"],
+    "I+D": ["นักวิจัยวิทยาศาสตร์", "นักวิจัยการเกษตร", "นักวิเคราะห์ยา"],
+    "I+P": ["แพทย์", "ที่ปรึกษาด้านสุขภาพ"],
+    "I+T": ["นักวิทย์ห้องแล็บ", "นักตรวจวัดมลพิษเทคนิค"],
+    "S+D": ["นักพัฒนาทรัพยากรมนุษย์", "ผู้วางแผนดูแลผู้สูงอายุ"],
+    "S+P": ["ครู/วิทยากร", "พนักงานต้อนรับ/บริการ", "พิธีกร"],
+    "S+T": ["พยาบาลปฏิบัติการ", "ช่างเสริมสวย"],
+    "C+D": ["นักบัญชี", "นักตรวจสอบงบประมาณ", "ธุรการข้อมูล"],
+    "C+P": ["ผู้ประสานงานหน่วยงาน", "เจ้าหน้าที่การเงินลูกค้า"],
+    "C+T": ["เจ้าหน้าที่ไอทีสนับสนุน", "เจ้าหน้าที่บันทึกข้อมูล"],
+    "E+D": ["นักวางแผนกลยุทธ์", "ธุรกิจนำเข้า-ส่งออก", "นักวิเคราะห์ธุรกิจ"],
+    "E+P": ["ผู้บริหารองค์กร", "นักขายอสังหาฯ", "เจ้าของธุรกิจ"],
+    "E+T": ["ผู้จัดการสต็อกสินค้า"],
+    "A+D": ["นักเขียน/คอลัมนิสต์", "นักแต่งเพลง"],
+    "A+P": ["นักแสดง", "พิธีกรสายบันเทิง", "ครูสอนการแสดง"],
+    "A+T": ["ดีไซน์เนอร์เสื้อผ้า", "มัณฑนากร", "จิตรกร/นักจัดฉาก"]
 };
 
-const DPT_INFO = {
-  D:{n:"Data",th:"ข้อมูล / ความคิด",c:"#6366F1",d:"ชอบทำงานกับข้อมูล แนวคิด และการวิเคราะห์ มีระบบในการคิดและชอบวางแผน"},
-  P:{n:"People",th:"บุคคล / ปฏิสัมพันธ์",c:"#14B8A6",d:"ได้พลังจากการมีปฏิสัมพันธ์กับผู้คน ชอบช่วยเหลือ สอน และเชื่อมต่อกับผู้อื่น"},
-  T:{n:"Things",th:"เครื่องมือ / ปฏิบัติ",c:"#F59E0B",d:"ชอบทำงานกับวัตถุ เครื่องมือ และเครื่องจักร มีความสามารถเชิงปฏิบัติและลงมือทำจริง"}
-};
-
-const CAREER_MAP = {
-  "R+D":["ก่อสร้างบ้าน","พัฒนายานอวกาศ","วัดมลพิษสิ่งแวดล้อม","สำรวจทางทะเล"],
-  "R+P":["บริการขนส่ง / โลจิสติกส์","ขับรถเครื่องจักรหนัก","อุตสาหกรรมประมง"],
-  "R+T":["ซ่อมเครื่องยนต์ / เครื่องกล","ประกอบ / ผลิตเครื่องจักร","เกษตรกรรม / เลี้ยงสัตว์","ตัดผม / เย็บผ้า"],
-  "I+D":["วิจัยวิทยาศาสตร์","วิจัยการเกษตร","วิจัยเชิงทดลอง / นวัตกรรม","พัฒนายา / เภสัชกรรม"],
-  "I+P":["แพทย์","พยาบาล / ดูแลสุขภาพ"],
-  "I+T":["วิจัยจุลชีววิทยา / เชื้อโรค","วิเคราะห์วิทยาศาสตร์ / แล็บ"],
-  "S+D":["บริหารศูนย์ดูแลเด็ก","วางแผนดูแลผู้สูงอายุ","ให้คำปรึกษาสวัสดิการเด็ก"],
-  "S+P":["พิธีกร / ผู้ดำเนินรายการ","บริการผู้โดยสาร / สจ.","บริการโรงแรม"],
-  "S+T":["พยาบาล / ดูแลสุขภาพ","บริการเสริมสวย"],
-  "C+D":["บัญชี / การเงิน","วางแผนงบประมาณ","งานเสมียน / ธุรการ","งานไอที / ระบบฐานข้อมูล"],
-  "C+P":["ตัวแทนเอกสารราชการ","เจ้าหน้าที่การเงิน"],
-  "C+T":["ป้อนข้อมูล / พิมพ์ดีด","ถ่ายเอกสาร / เก็บบันทึก","จัดเก็บเอกสารคอมพิวเตอร์"],
-  "E+D":["วางแผนการขาย","ธุรกิจนำเข้า / ส่งออก","ซื้อขายหุ้น / วางแผนธุรกิจ"],
-  "E+P":["ผู้บริหารธุรกิจ","ผู้บริหารองค์กร","ธุรกิจส่วนตัว","นักขาย / การตลาด","ตัวแทนขาย / นายหน้า"],
-  "E+T":["จัดการสต็อกสินค้า"],
-  "A+D":["นักเขียน / คอลัมนิสต์","คอลัมนิสต์ / สร้างคอนเทนต์","แต่งเพลง"],
-  "A+P":["แสดงละคร / ภาพยนตร์","สอนการแสดง / ละคร","พิธีกร / ผู้ดำเนินรายการ"],
-  "A+T":["ออกแบบแฟชั่น","ออกแบบตกแต่งภายใน","วาดภาพ / ศิลปะ","ออกแบบฉาก / สถานที่","เล่นดนตรี"]
-};
-
-// ══════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════
+// --- State & App Logic ---
 let answersA = new Array(54).fill(null);
-let answersB = QUESTIONS_B.map(() => [null, null, null]); // [rank0_optIdx, rank1_optIdx, rank2_optIdx]
-let scoresA = {R:0,I:0,S:0,C:0,E:0,A:0};
-let scoresB = {D:0,P:0,T:0};
-let currentA = 0, currentB = 0;
-let radarChartInst = null, barChartInst = null;
+let answersB = new Array(18).fill(null).map(() => []);
+let answersC = new Array(54).fill(null);
+let curA = 0, curB = 0, curC = 0;
 
-// ══════════════════════════════════════════
-//  UTILS
-// ══════════════════════════════════════════
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function changeScreen(step) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen-' + step);
+    if(target) {
+        target.classList.add('active');
+        window.scrollTo(0,0);
+        if(step === 'A') renderA();
+        if(step === 'B') renderB();
+        if(step === 'C') { curC = 0; renderC(); }
+    }
 }
 
-function setProgress(pct, label) {
-  const wrap = document.getElementById('headerProgressWrap');
-  const fill = document.getElementById('headerProgressFill');
-  const lbl = document.getElementById('headerProgressLabel');
-  if (pct === null) { wrap.style.display = 'none'; return; }
-  wrap.style.display = 'block';
-  fill.style.width = pct + '%';
-  lbl.textContent = label || Math.round(pct) + '%';
+function updateProg(pct, label) {
+    document.getElementById('main-progress').style.width = pct + '%';
+    document.getElementById('step-label').innerText = label;
 }
 
-function transition(icon, text, cb) {
-  const ov = document.getElementById('transOverlay');
-  document.getElementById('transIcon').textContent = icon;
-  document.getElementById('transText').textContent = text;
-  ov.classList.add('show');
-  setTimeout(() => { ov.classList.remove('show'); if (cb) cb(); }, 1200);
-}
-
-// ══════════════════════════════════════════
-//  INTRO
-// ══════════════════════════════════════════
-function startTest() {
-  answersA = new Array(54).fill(null);
-  answersB = QUESTIONS_B.map(() => [null, null, null]);
-  currentA = 0; currentB = 0;
-  document.getElementById('headerSub').textContent = 'ส่วนที่ ก · ความสนใจทางอาชีพ';
-  show('A');
-  renderA();
-  setProgress(0, '0 / 54');
-}
-
-// ══════════════════════════════════════════
-//  SECTION A
-// ══════════════════════════════════════════
+// Section A
 function renderA() {
-  const q = CAREERS_A[currentA];
-  document.getElementById('qLabelA').textContent = `ข้อที่ ${currentA + 1} จาก 54`;
-  document.getElementById('careerName').textContent = q.text;
-  const cur = answersA[currentA];
-  [0,1,2].forEach(v => {
-    const btn = document.getElementById('btn' + v);
-    btn.classList.remove('sel-0','sel-1','sel-2');
-    if (cur === v) btn.classList.add('sel-' + v);
-  });
-  document.getElementById('btnPrevA').disabled = currentA === 0;
-  document.getElementById('btnNextA').disabled = answersA[currentA] === null;
-  document.getElementById('cntA').textContent = `${currentA + 1} / 54`;
-  setProgress(Math.round((currentA / 54) * 50), `${currentA + 1} / 54`);
+    const q = CAREERS[curA];
+    document.getElementById('q-text-A').innerText = q.text;
+    document.getElementById('q-count-A').innerText = `ข้อที่ ${curA+1}/54`;
+    updateProg((curA/126)*100, `ความสนใจ: ${curA+1}/54`);
+    document.querySelectorAll('#screen-A .ans-btn').forEach(b => b.classList.remove('active-0', 'active-1', 'active-2'));
+    if(answersA[curA] !== null) {
+        const activeBtn = document.getElementById('btnA-' + answersA[curA]);
+        if(activeBtn) activeBtn.classList.add('active-' + answersA[curA]);
+    }
 }
 
 function selectA(v) {
-  answersA[currentA] = v;
-  [0,1,2].forEach(x => document.getElementById('btn' + x).classList.remove('sel-0','sel-1','sel-2'));
-  document.getElementById('btn' + v).classList.add('sel-' + v);
-  document.getElementById('btnNextA').disabled = false;
-  setTimeout(() => {
-    if (currentA < 53) navA(1);
-    else finishA();
-  }, 250);
+    answersA[curA] = v;
+    renderA();
+    setTimeout(() => { 
+        if(curA < 53) { curA++; renderA(); } 
+        else { changeScreen('B'); } 
+    }, 150);
 }
 
-function navA(dir) {
-  currentA = Math.max(0, Math.min(53, currentA + dir));
-  if (currentA === 53 && dir === 1 && answersA[currentA] !== null) { finishA(); return; }
-  renderA();
-}
+function navA(d) { if(curA+d >= 0) { curA += d; renderA(); } }
 
-function finishA() {
-  if (answersA.some(x => x === null)) { alert('กรุณาตอบคำถามทั้ง 54 ข้อก่อนนะครับ'); return; }
-  scoresA = {R:0,I:0,S:0,C:0,E:0,A:0};
-  CAREERS_A.forEach((c, i) => { scoresA[c.g] += (answersA[i] || 0); });
-  transition('✅', 'ส่วนที่ ก เสร็จสิ้น!', () => {
-    document.getElementById('headerSub').textContent = 'ส่วนที่ ข · สไตล์การทำงาน';
-    currentB = 0;
-    show('B');
-    renderB();
-  });
-}
-
-// ══════════════════════════════════════════
-//  SECTION B
-// ══════════════════════════════════════════
+// Section B
 function renderB() {
-  const q = QUESTIONS_B[currentB];
-  document.getElementById('qLabelB').textContent = `ข้อที่ ${currentB + 1} จาก 18`;
-  document.getElementById('qTextB').textContent = q.t;
-  document.getElementById('cntB').textContent = `${currentB + 1} / 18`;
-  setProgress(50 + Math.round((currentB / 18) * 50), `${currentB + 1} / 18`);
-
-  const curRanks = answersB[currentB]; // array of 3 optIdxs in rank order, or [null,null,null]
-  const container = document.getElementById('rankOptions');
-  container.innerHTML = '';
-
-  q.o.forEach((opt, optIdx) => {
-    const rankPos = curRanks.indexOf(optIdx); // -1 if not ranked yet
-    const div = document.createElement('div');
-    div.className = 'rank-option' + (rankPos >= 0 ? ' ranked-' + (rankPos + 1) : '');
-    div.onclick = () => clickRank(optIdx);
-
-    const badge = document.createElement('div');
-    badge.className = 'rank-badge';
-    badge.textContent = rankPos >= 0 ? (rankPos + 1) : '—';
-
-    const text = document.createElement('div');
-    text.className = 'rank-text';
-    text.textContent = opt.l;
-
-    const pts = document.createElement('div');
-    pts.className = 'rank-pts';
-    if (rankPos === 0) pts.textContent = '2 คะแนน';
-    else if (rankPos === 1) pts.textContent = '1 คะแนน';
-    else if (rankPos === 2) pts.textContent = '0 คะแนน';
-
-    div.appendChild(badge);
-    div.appendChild(text);
-    div.appendChild(pts);
-    container.appendChild(div);
-  });
-
-  document.getElementById('btnPrevB').disabled = currentB === 0;
-  document.getElementById('btnNextB').textContent = currentB === 17 ? 'ดูผลลัพธ์ →' : 'ถัดไป →';
-}
-
-function clickRank(optIdx) {
-  const curRanks = answersB[currentB];
-  const pos = curRanks.indexOf(optIdx);
-  if (pos >= 0) {
-    // Already ranked — remove it and shift down
-    curRanks.splice(pos, 1);
-    curRanks.push(null);
-  } else {
-    // Not ranked — add to next available slot
-    const slot = curRanks.indexOf(null);
-    if (slot >= 0) curRanks[slot] = optIdx;
-    // If all slots taken, ignore
-  }
-  renderB();
-}
-
-function navB(dir) {
-  if (dir === 1) {
-    const cur = answersB[currentB];
-    if (cur.some(x => x === null)) { alert('กรุณาเรียงลำดับตัวเลือกทั้ง 3 ข้อก่อนนะครับ'); return; }
-    if (currentB === 17) { finishB(); return; }
-    currentB++;
-  } else {
-    currentB = Math.max(0, currentB - 1);
-  }
-  renderB();
-}
-
-function finishB() {
-  scoresB = {D:0,P:0,T:0};
-  answersB.forEach((ranks, qi) => {
-    ranks.forEach((optIdx, rankPos) => {
-      if (optIdx !== null) {
-        const tp = QUESTIONS_B[qi].o[optIdx].tp;
-        scoresB[tp] += (2 - rankPos); // rank 0 = 2pts, rank 1 = 1pt, rank 2 = 0pts
-      }
+    const q = QUESTIONS_B[curB];
+    document.getElementById('q-text-B').innerText = q.t;
+    document.getElementById('q-count-B').innerText = `ข้อที่ ${curB+1}/18`;
+    updateProg(((54+curB)/126)*100, `สไตล์งาน: ${curB+1}/18`);
+    const cont = document.getElementById('rank-options-B');
+    cont.innerHTML = '';
+    const curRanks = answersB[curB];
+    q.o.forEach((opt, idx) => {
+        const rIdx = curRanks.indexOf(idx);
+        const div = document.createElement('div');
+        div.className = 'rank-item' + (rIdx !== -1 ? ' selected' : '');
+        div.innerHTML = `<div class="rank-badge">${rIdx !== -1 ? rIdx+1 : ''}</div><div>${opt.l}</div>`;
+        div.onclick = () => {
+            if(rIdx !== -1) { curRanks.splice(rIdx, 1); }
+            else if(curRanks.length < 3) { curRanks.push(idx); }
+            renderB();
+        };
+        cont.appendChild(div);
     });
-  });
-  transition('🎯', 'กำลังวิเคราะห์ผล...', () => {
-    document.getElementById('headerSub').textContent = 'ผลการประเมิน';
-    setProgress(100, '100%');
-    show('result');
-    renderResult();
-  });
+    document.getElementById('btn-next-B').style.display = curRanks.length === 3 ? 'block' : 'none';
 }
 
-// ══════════════════════════════════════════
-//  RESULT
-// ══════════════════════════════════════════
-function renderResult() {
-  const topR = Object.entries(scoresA).sort((a,b) => b[1]-a[1])[0][0];
-  const topD = Object.entries(scoresB).sort((a,b) => b[1]-a[1])[0][0];
-  const combo = topR + '+' + topD;
-  const ri = RIASEC_INFO[topR];
-  const di = DPT_INFO[topD];
-  const careers = CAREER_MAP[combo] || [];
-  const name = document.getElementById('userName').value.trim();
-
-  document.getElementById('rComboBadge').textContent = (name ? name + ' · ' : '') + ri.n + ' + ' + di.n;
-  document.getElementById('rComboTitle').textContent = topR + ' + ' + topD;
-  document.getElementById('rComboName').textContent = ri.th + ' · ' + di.th;
-  document.getElementById('rDesc').textContent = ri.d + ' ' + di.d;
-
-  // RIASEC Score Bars
-  const barsEl = document.getElementById('riasecBars');
-  barsEl.innerHTML = '';
-  const sorted = Object.entries(scoresA).sort((a,b) => b[1]-a[1]);
-  sorted.forEach(([k,v]) => {
-    const info = RIASEC_INFO[k];
-    const row = document.createElement('div');
-    row.className = 'score-row';
-    row.innerHTML = `
-      <span class="score-key" style="color:${info.c}">${k}</span>
-      <span class="score-name">${info.th}</span>
-      <div class="score-track"><div class="score-fill" style="width:0%;background:${info.c}" data-w="${Math.round((v/18)*100)}"></div></div>
-      <span class="score-val">${v}/18</span>`;
-    barsEl.appendChild(row);
-  });
-  setTimeout(() => {
-    document.querySelectorAll('.score-fill').forEach(el => {
-      el.style.width = el.dataset.w + '%';
-    });
-  }, 100);
-
-  // Career chips
-  const chipsEl = document.getElementById('careerChips');
-  chipsEl.innerHTML = '';
-  if (careers.length) {
-    careers.forEach(c => {
-      const chip = document.createElement('div');
-      chip.className = 'career-chip';
-      chip.textContent = c;
-      chipsEl.appendChild(chip);
-    });
-  } else {
-    chipsEl.innerHTML = '<span style="color:var(--text-muted);font-size:13px">ไม่พบข้อมูลอาชีพสำหรับกลุ่มนี้</span>';
-  }
-
-  // Charts
-  buildRadar(topR);
-  buildBar(topD);
+function nextB() { 
+    if(curB < 17) { curB++; renderB(); } 
+    else { showSummary1(); } 
 }
 
-function buildRadar(topR) {
-  if (radarChartInst) radarChartInst.destroy();
-  const ctx = document.getElementById('radarChart').getContext('2d');
-  const labels = Object.keys(scoresA);
-  const data = labels.map(k => scoresA[k]);
-  const colors = labels.map(k => RIASEC_INFO[k].c);
-  radarChartInst = new Chart(ctx, {
-    type: 'radar',
-    data: {
-      labels,
-      datasets: [{
-        data,
-        backgroundColor: 'rgba(14,165,233,0.12)',
-        borderColor: '#0EA5E9',
-        borderWidth: 2,
-        pointBackgroundColor: labels.map(k => RIASEC_INFO[k].c),
-        pointRadius: 4,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        r: {
-          min: 0, max: 18, ticks: { stepSize: 6, font: { size: 10 } },
-          pointLabels: { font: { size: 11, weight: '600' },
-            color: labels.map(k => k === topR ? RIASEC_INFO[k].c : '#94A3B8') }
-        }
-      }
+// Summary 1
+function showSummary1() {
+    changeScreen('summary1');
+    const riasec = calcScore(answersA);
+    const dpt = calcDPT();
+    const topR = getTop(riasec);
+    const topD = getTop(dpt);
+    document.getElementById('summary1-desc').innerHTML = `ความสนใจหลักของคุณคือกลุ่ม <b>${topR}</b> และถนัดสไตล์งานแบบ <b>${topD}</b>`;
+    
+    new Chart(document.getElementById('chartA'), {
+        type: 'radar',
+        data: {
+            labels: Object.keys(riasec),
+            datasets: [{ label: 'ระดับความสนใจ', data: Object.values(riasec), borderColor: '#0EA5E9', backgroundColor: 'rgba(14,165,233,0.1)' }]
+        },
+        options: { responsive: true, scales: { r: { min: 0, max: 18 } } }
+    });
+}
+
+// Section C
+function renderC() {
+    const q = CAREERS[curC];
+    document.getElementById('q-text-C').innerText = q.text;
+    document.getElementById('q-count-C').innerText = `ข้อที่ ${curC+1}/54`;
+    updateProg(((72+curC)/126)*100, `ความมั่นใจ: ${curC+1}/54`);
+    document.querySelectorAll('#screen-C .ans-btn').forEach(b => b.classList.remove('active-0', 'active-1', 'active-2'));
+    if(answersC[curC] !== null) {
+        const activeBtn = document.getElementById('btnC-' + answersC[curC]);
+        if(activeBtn) activeBtn.classList.add('active-' + answersC[curC]);
     }
-  });
 }
 
-function buildBar(topD) {
-  if (barChartInst) barChartInst.destroy();
-  const ctx = document.getElementById('barChart').getContext('2d');
-  const labels = ['D (ข้อมูล)', 'P (บุคคล)', 'T (สิ่ง)'];
-  const vals = [scoresB.D, scoresB.P, scoresB.T];
-  const keys = ['D','P','T'];
-  barChartInst = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        data: vals,
-        backgroundColor: keys.map(k => k === topD ? DPT_INFO[k].c : '#E2E8F0'),
-        borderRadius: 6,
-        borderSkipped: false,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
-        y: { min: 0, max: 36, ticks: { stepSize: 12, font: { size: 10 } }, grid: { color: '#F1F5F9' } }
-      }
-    }
-  });
+function selectC(v) {
+    answersC[curC] = v;
+    renderC();
+    setTimeout(() => { 
+        if(curC < 53) { curC++; renderC(); } 
+        else { showFinal(); } 
+    }, 150);
 }
 
-function copyResult() {
-  const topR = Object.entries(scoresA).sort((a,b)=>b[1]-a[1])[0][0];
-  const topD = Object.entries(scoresB).sort((a,b)=>b[1]-a[1])[0][0];
-  const name = document.getElementById('userName').value.trim();
-  let txt = `=== ผลการทดสอบความพร้อมทางอาชีพ ===\n`;
-  if (name) txt += `ชื่อ: ${name}\n`;
-  txt += `กลุ่มอาชีพ: ${topR}+${topD} (${RIASEC_INFO[topR].th} + ${DPT_INFO[topD].th})\n\n`;
-  txt += `คะแนน RIASEC:\n`;
-  Object.entries(scoresA).forEach(([k,v]) => { txt += `  ${k} (${RIASEC_INFO[k].th}): ${v}/18\n`; });
-  txt += `\nคะแนน D/P/T:\n`;
-  Object.entries(scoresB).forEach(([k,v]) => { txt += `  ${k} (${DPT_INFO[k].th}): ${v}/36\n`; });
-  txt += `\nอาชีพแนะนำ:\n`;
-  (CAREER_MAP[topR+'+'+topD]||[]).forEach(c => { txt += `  • ${c}\n`; });
-  navigator.clipboard.writeText(txt).then(() => {
-    const btn = event.target;
-    const orig = btn.textContent;
-    btn.textContent = '✓ คัดลอกแล้ว!';
-    setTimeout(() => { btn.textContent = orig; }, 2000);
-  });
+function navC(d) { if(curC+d >= 0) { curC += d; renderC(); } }
+
+// Final Summary (ปรับปรุงจุดนี้)
+function showFinal() {
+    changeScreen('final');
+    const scoreA = calcScore(answersA);
+    const scoreC = calcScore(answersC);
+    const dpt = calcDPT();
+    
+    const topA = getTop(scoreA);
+    const topStyle = getTop(dpt);
+    const topC = getTop(scoreC);
+
+    // แสดงสรุปรหัสตัวอักษร
+    document.getElementById('code-summary-box').innerHTML = `
+        <div class="code-badge" style="border-top: 4px solid var(--primary);">
+            <span>ความชอบ (A)</span>
+            <strong style="color: var(--primary);">${topA}</strong>
+        </div>
+        <div class="code-badge" style="border-top: 4px solid var(--teal);">
+            <span>สไตล์งาน (B)</span>
+            <strong style="color: var(--teal);">${topStyle}</strong>
+        </div>
+        <div class="code-badge" style="border-top: 4px solid var(--purple);">
+            <span>ความมั่นใจ (C)</span>
+            <strong style="color: var(--purple);">${topC}</strong>
+        </div>
+    `;
+    
+    let gapTxt = "";
+    if(topA === topC) gapTxt = `<b>Zone of Success:</b> ความชอบและความมั่นใจของคุณตรงกันในกลุ่ม <b>${topA}</b> เป็นเส้นทางที่เหมาะสมที่สุด`;
+    else gapTxt = `<b>Gap Analysis:</b> คุณสนใจกลุ่ม <b>${topA}</b> แต่มีความมั่นใจในกลุ่ม <b>${topC}</b> มากกว่า ลองหาจุดกึ่งกลางหรือพัฒนาทักษะเพิ่มเติมในสิ่งที่คุณรัก`;
+    
+    document.getElementById('gap-analysis-box').innerHTML = gapTxt;
+    document.getElementById('list-dream').innerHTML = (CAREER_MAPPING[topA+'+'+topStyle] || []).map(c => `<span class="career-chip">${c}</span>`).join('');
+    document.getElementById('list-capable').innerHTML = (CAREER_MAPPING[topC+'+'+topStyle] || []).map(c => `<span class="career-chip">${c}</span>`).join('');
+
+    new Chart(document.getElementById('finalComparisonChart'), {
+        type: 'bar',
+        data: {
+            labels: Object.keys(scoreA),
+            datasets: [
+                { label: 'ความชอบ (A)', data: Object.values(scoreA), backgroundColor: '#0EA5E9' },
+                { label: 'ความมั่นใจ (C)', data: Object.values(scoreC), backgroundColor: '#8B5CF6' }
+            ]
+        },
+        options: { responsive: true, scales: { y: { min: 0, max: 18 } } }
+    });
 }
 
-function resetAll() {
-  answersA = new Array(54).fill(null);
-  answersB = QUESTIONS_B.map(() => [null,null,null]);
-  scoresA = {R:0,I:0,S:0,C:0,E:0,A:0};
-  scoresB = {D:0,P:0,T:0};
-  currentA = 0; currentB = 0;
-  document.getElementById('headerSub').textContent = 'แบบทดสอบความพร้อมทางอาชีพ';
-  setProgress(null);
-  show('intro');
+// Helpers
+function calcScore(arr) {
+    let s = {R:0,I:0,S:0,C:0,E:0,A:0};
+    CAREERS.forEach((c, i) => { if(arr[i]!==null) s[c.g] += arr[i]; });
+    return s;
 }
+function calcDPT() {
+    let s = {D:0,P:0,T:0};
+    answersB.forEach((ranks, qi) => {
+        ranks.forEach((oi, pos) => { s[QUESTIONS_B[qi].o[oi].tp] += (2-pos); });
+    });
+    return s;
+}
+function getTop(obj) { return Object.entries(obj).sort((a,b)=>b[1]-a[1])[0][0]; }
 </script>
 </body>
 </html>
